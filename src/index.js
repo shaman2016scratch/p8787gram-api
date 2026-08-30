@@ -81,13 +81,13 @@ app.post("/login", async (req, res) => {
         })
     }
     user.lastActive = new Date()
-    const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" })
-    user.sessions.push(token)
+    const userToken = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" })
+    user.sessions.push(userToken)
     usersIndex[username] = user.JSON()
     await DB.write("/users/index.json", usersIndex.toString())
     return res.status(200).json({
         ok: true,
-        result: token
+        result: userToken
     })
 })
 
@@ -161,13 +161,13 @@ app.post("/register", async (req, res) => {
     }
     const user = new User({ name, username, password, id: Object.keys(usersIndex).length+1 })
     user.lastActive = new Date()
-    const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" })
-    user.sessions.push(token)
+    const userToken = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" })
+    user.sessions.push(userToken)
     usersIndex[username] = user.JSON()
     await DB.write("/users/index.json", usersIndex.toString())
     return res.status(200).json({
         ok: true,
-        result: token
+        result: userToken
     })
 })
 
