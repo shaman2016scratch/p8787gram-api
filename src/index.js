@@ -66,7 +66,7 @@ app.get("/users/id/:id", async (req, res) => {
 app.post("/login", async (req, res) => {
     const rawUsersIndex = await DB.read("/users/index.json")
     let usersIndex = JSON.stringify(rawUsersIndex)
-    const { username, password } = req.body
+    const { username, password, token } = req.body
     if (!usersIndex.users.includes(username)) {
         return res.status(404).json({
             ok: true,
@@ -74,7 +74,7 @@ app.post("/login", async (req, res) => {
         })
     }
     const user = new User(usersIndex[username])
-    if (user.password !== password) {
+    if (password ? user.password !== password : user.token !== token) {
         return res.status(403).json({
             ok: true,
             error: "Invalid password"
@@ -82,6 +82,7 @@ app.post("/login", async (req, res) => {
     }
     user.lastActive = new Date()
     const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" })
+    user.sessions.push(token)
     usersIndex[username] = user.JSON()
     await DB.write("/users/index.json", usersIndex.toString())
     return res.status(200).json({
@@ -101,7 +102,7 @@ app.post("/session", async (req, res) => {
         })
     }
     const user = new User(usersIndex[username])
-    if (user.session !== token || jwt.verify(token, process.env.JWT_SECRET)) {
+    if ((!user.sessions.includes(session) && session !== user.token) || jwt.verify(token, process.env.JWT_SECRET)) {
         return res.status(403).json({
             ok: true,
             error: "Invalid token"
@@ -136,7 +137,7 @@ app.post("/session/chats", async (req, res) => {
         })
     }
     const user = new User(usersIndex[username])
-    if (user.session !== token || jwt.verify(token, process.env.JWT_SECRET)) {
+    if ((!user.sessions.includes(session) && session !== user.token) || jwt.verify(token, process.env.JWT_SECRET)) {
         return res.status(403).json({
             ok: true,
             error: "Invalid token"
@@ -161,6 +162,7 @@ app.post("/register", async (req, res) => {
     const user = new User({ name, username, password, id: Object.keys(usersIndex).length+1 })
     user.lastActive = new Date()
     const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" })
+    user.sessions.push(token)
     usersIndex[username] = user.JSON()
     await DB.write("/users/index.json", usersIndex.toString())
     return res.status(200).json({
@@ -241,7 +243,7 @@ app.post("/chats/:target/info", async (req, res) => {
             error: "You is not in the chat"
         })
     }
-    if (user.session !== session || jwt.verify(session, process.env.JWT_SECRET)) {
+    if ((!user.sessions.includes(session) && session !== user.token) || jwt.verify(session, process.env.JWT_SECRET)) {
         return res.status(403).json({
             ok: true,
             error: "Invalid token"

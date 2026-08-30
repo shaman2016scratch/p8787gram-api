@@ -1,3 +1,5 @@
+import { randomBytes } from 'crypto'
+
 class User {
     constructor (json) {
         this.id = json.id || null
@@ -8,8 +10,9 @@ class User {
         this.chats = json.chats || []
         this.role = json.role || "user"
         this.password = json.password
-        this.session = json.session
+        this.token = json.session || `${randomBytes(8).toString('base64url')}:${randomBytes(64).toString('base64url')}`
         this.devices = json.devices || []
+        this.sessions = json.sessions || []
     }
 
     JSON () {
@@ -23,7 +26,8 @@ class User {
             role: this.role,
             devices: this.devices,
             password: this.password,
-            session: this.session
+            session: this.token,
+            sessions: this.sessions
         }
     }
 
