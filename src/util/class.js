@@ -49,6 +49,8 @@ class Chat {
         this.lastActive = json.lastActive || new Date()
         this.createdAt = json.createdAt || new Date()
         this.actions = json.actions || []
+        this.username = json.username || `id${this.id}`
+        this.memberList = json.memberList || []
     }
 
     JSON () {
@@ -58,13 +60,15 @@ class Chat {
             type: this.type,
             access: this.access,
             members: this.members,
+            memberList: this.memberList,
             admins: this.admins,
             owner: this.owner,
             creator: this.creator,
             messages: this.messages,
             lastActive: this.lastActive,
             createdAt: this.createdAt,
-            actions: this.actions
+            actions: this.actions,
+            username: this.username
         }
     }
 
@@ -73,6 +77,7 @@ class Chat {
             id: user.id,
             joinedAt: new Date()
         })
+        this.memberList.push(user.id)
         this.messages.push({
             author: {
                 id: user.id,
@@ -105,6 +110,7 @@ class Chat {
             id: user.id,
             joinedAt: new Date()
         })
+        this.memberList.push(user.id)
         this.messages.push({
             author: {
                 id: adder.id,
