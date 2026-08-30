@@ -1,0 +1,15 @@
+{
+  "name": "p8787gram-api",
+  "version": "1.0.0",
+  "description": "",
+  "license": "AGPL-3.0",
+  "author": "polzovatel_8787",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
