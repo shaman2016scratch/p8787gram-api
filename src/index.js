@@ -83,6 +83,13 @@ app.post("/login", async (req, res) => {
     user.lastActive = new Date()
     const userToken = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" })
     user.sessions.push(userToken)
+    const IP = req.headers["x-forwarded-for"]
+    user.devices.push({
+        session: userToken,
+        IP,
+        started: new Date(),
+        lastActive: new Date()
+    })
     usersIndex[username] = user.JSON()
     await DB.write("/users/index.json", usersIndex.toString())
     return res.status(200).json({
@@ -163,6 +170,13 @@ app.post("/register", async (req, res) => {
     user.lastActive = new Date()
     const userToken = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" })
     user.sessions.push(userToken)
+    const IP = req.headers["x-forwarded-for"]
+    user.devices.push({
+        session: userToken,
+        IP,
+        started: new Date(),
+        lastActive: new Date()
+    })
     usersIndex[username] = user.JSON()
     await DB.write("/users/index.json", usersIndex.toString())
     return res.status(200).json({
