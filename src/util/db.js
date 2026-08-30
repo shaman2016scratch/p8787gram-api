@@ -1,4 +1,6 @@
-import { DB_URL } from "../../config.js";
+import config from "../../config.js"
+
+const DB_URL = `${config.env.DB_IP}:${config.env.DB_PORT}`
 
 class Server8787DB {
 
