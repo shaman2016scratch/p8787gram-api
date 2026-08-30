@@ -1,0 +1,14 @@
+import _package from "./package.cjs"
+const { package } = _package
+
+const config = {
+    env: {
+        "DB_IP": "server8787.loca.lt",
+        "DB_PORT": 443,
+        PORT: 8603
+    },
+    name: package.name,
+    version: package.version
+}
+
+export default config
