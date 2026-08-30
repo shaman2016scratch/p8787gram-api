@@ -7,8 +7,8 @@ const config = {
         "DB_PORT": 443,
         PORT: 8603
     },
-    name: package.name,
-    version: package.version
+    name: packageJson.name,
+    version: packageJson.version
 }
 
 export default config
