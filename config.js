@@ -1,5 +1,5 @@
 import _package from "./package.cjs"
-const { package } = _package
+const { packageJson } = _package
 
 const config = {
     env: {
