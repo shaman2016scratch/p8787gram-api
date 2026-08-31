@@ -5,8 +5,7 @@ const app = express();
 
 app.use(
 	express.json({ limit: "5mb" }),
-	cors(),
-	cookieParser()
+	cors()
 )
 
 export {
