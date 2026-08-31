@@ -64,6 +64,7 @@ app.get("/users/id/:id", async (req, res) => {
 })
 
 app.post("/login", async (req, res) => {
+    try {
     const rawUsersIndex = await DB.read("/users/index.json")
     let usersIndex = JSON.stringify(rawUsersIndex)
     const { username, password, token } = req.body
@@ -96,6 +97,14 @@ app.post("/login", async (req, res) => {
         ok: true,
         result: userToken
     })
+    } catch (e) {
+        console.error(`/login/ ip ${IP} error ${e.message}`)
+        return res.status(500).json({
+            ok: true,
+            error: "Interal Server Error",
+            err: e.message
+        })
+    }
 })
 
 app.post("/session", async (req, res) => {
@@ -157,6 +166,7 @@ app.post("/session/chats", async (req, res) => {
 })
 
 app.post("/register", async (req, res) => {
+    try {
     const rawUsersIndex = await DB.read("/users/index.json")
     let usersIndex = JSON.stringify(rawUsersIndex)
     const { name, username, password } = req.body
@@ -183,6 +193,14 @@ app.post("/register", async (req, res) => {
         ok: true,
         result: userToken
     })
+    } catch (e) {
+        console.error(`/register/ ip ${IP} error ${e.message}`)
+        return res.status(500).json({
+            ok: true,
+            error: "Interal Server Error",
+            err: e.message
+        })
+    }
 })
 
 app.get("/chats/:target", async (req, res) => {
