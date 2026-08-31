@@ -40,11 +40,12 @@ class Server8787DB {
     }
 
     async read (file) {
+        let demoConnecT
         try {
             const DB_SECRET = this.#DB_SECRET
             const project = this.project
             const projectGroup = this.project
-            const demoConnecT = await fetch(`https://${DB_URL}/files/read/`, {
+            demoConnecT = await fetch(`https://${DB_URL}/files/read/`, {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -62,9 +63,14 @@ class Server8787DB {
             if (!isOk) console.error(`Error with getting data: ${connecT.error}`)
             return isOk ? connecT.result : connecT.error
         } catch (e) {
-            console.error("DB ERROR")
-            console.error(e)
-            return {}
+            try {
+                const connecT = await demoConnecT.text()
+                console.log(connecT)
+            } catch (e) {
+                console.error("DB ERROR")
+                console.error(e)
+                return {}
+            }
         }
     }
 }
