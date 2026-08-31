@@ -16,25 +16,31 @@ class Server8787DB {
         const DB_SECRET = this.#DB_SECRET
         const project = this.project
         const projectGroup = this.project
-        const connecT = await (await fetch(`https://${DB_URL}/files/write/`, {
-            method: "POST",
-            headers: {
-                "content-type": "application/json",
-                "bypass-tunnel-reminder": "true"
-            },
-            body: JSON.stringify({
-                DB_SECRET,
-                projectGroup,
-                project,
-                file,
-                newContent
-            })
-        })).json()
-        const isOk = connecT.ok === true
-        return isOk ? connecT.result : connecT.error
+        try {
+            const connecT = await (await fetch(`https://${DB_URL}/files/write/`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    "bypass-tunnel-reminder": "true"
+                },
+                body: JSON.stringify({
+                    DB_SECRET,
+                    projectGroup,
+                    project,
+                    file,
+                    newContent
+                })
+            })).json()
+            const isOk = connecT.ok === true
+            return isOk ? connecT.result : connecT.error
+        } catch (e) {
+            console.error(e)
+            return {}
+        }
     }
 
     async read (file) {
+        try {
         const DB_SECRET = this.#DB_SECRET
         const project = this.project
         const projectGroup = this.project
@@ -53,6 +59,10 @@ class Server8787DB {
         })).json()
         const isOk = connecT.ok === true
         return isOk ? connecT.result : connecT.error
+        } catch (e) {
+            console.error(e)
+            return {}
+        }
     }
 }
 
