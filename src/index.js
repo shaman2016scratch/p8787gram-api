@@ -64,6 +64,7 @@ app.get("/users/id/:id", async (req, res) => {
 })
 
 app.post("/login", async (req, res) => {
+    const IP = req.headers["x-forwarded-for"]
     try {
     const rawUsersIndex = await DB.read("/users/index.json")
     let usersIndex = JSON.stringify(rawUsersIndex)
@@ -84,7 +85,6 @@ app.post("/login", async (req, res) => {
     user.lastActive = new Date()
     const userToken = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" })
     user.sessions.push(userToken)
-    const IP = req.headers["x-forwarded-for"]
     user.devices.push({
         session: userToken,
         IP,
@@ -166,6 +166,7 @@ app.post("/session/chats", async (req, res) => {
 })
 
 app.post("/register", async (req, res) => {
+    const IP = req.headers["x-forwarded-for"]
     try {
     const rawUsersIndex = await DB.read("/users/index.json")
     let usersIndex = JSON.stringify(rawUsersIndex)
@@ -180,7 +181,6 @@ app.post("/register", async (req, res) => {
     user.lastActive = new Date()
     const userToken = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" })
     user.sessions.push(userToken)
-    const IP = req.headers["x-forwarded-for"]
     user.devices.push({
         session: userToken,
         IP,
