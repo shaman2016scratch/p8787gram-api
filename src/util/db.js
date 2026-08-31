@@ -41,25 +41,27 @@ class Server8787DB {
 
     async read (file) {
         try {
-        const DB_SECRET = this.#DB_SECRET
-        const project = this.project
-        const projectGroup = this.project
-        const connecT = await (await fetch(`https://${DB_URL}/files/read/`, {
-            method: "POST",
-            headers: {
-                "content-type": "application/json",
-                "bypass-tunnel-reminder": true
-            },
-            body: JSON.stringify({
-                DB_SECRET,
-                projectGroup,
-                project,
-                file
-            })
-        })).json()
-        const isOk = connecT.ok === true
-        return isOk ? connecT.result : connecT.error
+            const DB_SECRET = this.#DB_SECRET
+            const project = this.project
+            const projectGroup = this.project
+            const connecT = await (await fetch(`https://${DB_URL}/files/read/`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    "bypass-tunnel-reminder": true
+                },
+                body: JSON.stringify({
+                    DB_SECRET,
+                    projectGroup,
+                    project,
+                    file
+                })
+            })).json()
+            const isOk = connecT.ok === true
+            if (!isOk) console.error(`Error with getting data: ${connecT.error}`)
+            return isOk ? connecT.result : connecT.error
         } catch (e) {
+            console.error("DB ERROR")
             console.error(e)
             return {}
         }
