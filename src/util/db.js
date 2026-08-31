@@ -44,7 +44,7 @@ class Server8787DB {
             const DB_SECRET = this.#DB_SECRET
             const project = this.project
             const projectGroup = this.project
-            const connecT = await (await fetch(`https://${DB_URL}/files/read/`, {
+            const demoConnecT = await fetch(`https://${DB_URL}/files/read/`, {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -56,7 +56,8 @@ class Server8787DB {
                     project,
                     file
                 })
-            })).json()
+            })
+            const connecT = await demoConnecT.json()
             const isOk = connecT.ok === true
             if (!isOk) console.error(`Error with getting data: ${connecT.error}`)
             return isOk ? connecT.result : connecT.error
