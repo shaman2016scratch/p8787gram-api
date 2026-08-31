@@ -21,7 +21,7 @@ class Server8787DB {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
-                    "bypass-tunnel-reminder": "true"
+                    "bypass-tunnel-reminder": true
                 },
                 body: JSON.stringify({
                     DB_SECRET,
@@ -48,7 +48,7 @@ class Server8787DB {
             method: "POST",
             headers: {
                 "content-type": "application/json",
-                "bypass-tunnel-reminder": "true"
+                "bypass-tunnel-reminder": true
             },
             body: JSON.stringify({
                 DB_SECRET,
