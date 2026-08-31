@@ -11,6 +11,7 @@
     "build": "npx localtunnel --port 8603 --subdomain p8787gram-api"
   },
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "localtunnel": "^2.0.2"
