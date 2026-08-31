@@ -67,7 +67,7 @@ app.post("/login", async (req, res) => {
     const IP = req.headers["x-forwarded-for"]
     try {
     const rawUsersIndex = await DB.read("/users/index.json")
-    let usersIndex = JSON.stringify(rawUsersIndex)
+    let usersIndex = JSON.parse(rawUsersIndex)
     const { username, password, token } = req.body
     if (!usersIndex.users.includes(username)) {
         return res.status(404).json({
@@ -92,7 +92,7 @@ app.post("/login", async (req, res) => {
         lastActive: new Date()
     })
     usersIndex[username] = user.JSON()
-    await DB.write("/users/index.json", usersIndex.toString())
+    await DB.write("/users/index.json", JSON.stringify(usersIndex))
     return res.status(200).json({
         ok: true,
         result: userToken
@@ -169,7 +169,7 @@ app.post("/register", async (req, res) => {
     const IP = req.headers["x-forwarded-for"]
     try {
     const rawUsersIndex = await DB.read("/users/index.json")
-    let usersIndex = JSON.stringify(rawUsersIndex)
+    let usersIndex = JSON.parse(rawUsersIndex)
     const { name, username, password } = req.body
     if (usersIndex.users.includes(username)) {
         return res.status(404).json({
@@ -188,7 +188,7 @@ app.post("/register", async (req, res) => {
         lastActive: new Date()
     })
     usersIndex[username] = user.JSON()
-    await DB.write("/users/index.json", usersIndex.toString())
+    await DB.write("/users/index.json", JSON.stringify(usersIndex))
     return res.status(200).json({
         ok: true,
         result: userToken
