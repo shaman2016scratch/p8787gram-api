@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import app from "./app.js";
 import config from "../config.js";
 import DB from "./db.js";
+import "./server/customLangs.js"
 
 app.get("/", (req, res) => {
     return res.status(200).json({
