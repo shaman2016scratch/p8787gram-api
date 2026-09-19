@@ -59,13 +59,32 @@ class Server8787DB {
                 })
             })
             const connecT = await demoConnecT.json()
-            const isOk = connecT.ok === true
+            const isOk = demoConnecT.ok === true
             if (!isOk) console.error(`Error with getting data: ${connecT.error}`)
             return isOk ? connecT.result : connecT.error
         } catch (e) {
             try {
+                const DB_SECRET = this.#DB_SECRET
+                const project = this.project
+                const projectGroup = this.project
+                demoConnecT = await fetch(`https://${DB_URL}/files/read/`, {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                        "bypass-tunnel-reminder": true
+                    },
+                    body: JSON.stringify({
+                        DB_SECRET,
+                        projectGroup,
+                        project,
+                        file
+                    })
+                })
                 const connecT = await demoConnecT.text()
                 console.log(connecT)
+                const isOk = demoConnecT.ok === true
+                if (!isOk) console.error(`Error with getting data: ${JSON,parse(connecT).error}`)
+                return isOk ? connecT.result : connecT.error
             } catch (e) {
                 console.error("DB ERROR")
                 console.error(e)
