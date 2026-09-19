@@ -15,7 +15,7 @@ class Server8787DB {
     async write (file, newContent) {
         const DB_SECRET = this.#DB_SECRET
         const project = this.project
-        const projectGroup = this.project
+        const projectGroup = this.group
         try {
             const connecT = await (await fetch(`https://${DB_URL}/files/write/`, {
                 method: "POST",
@@ -44,7 +44,7 @@ class Server8787DB {
         try {
             const DB_SECRET = this.#DB_SECRET
             const project = this.project
-            const projectGroup = this.project
+            const projectGroup = this.group
             demoConnecT = await fetch(`https://${DB_URL}/files/read/`, {
                 method: "POST",
                 headers: {
@@ -84,7 +84,7 @@ class Server8787DB {
                 console.log(connecT)
                 const isOk = demoConnecT.ok === true
                 if (!isOk) console.error(`Error with getting data: ${JSON.parse(connecT).error}`)
-                return isOk ? connecT.result : connecT.error
+                return isOk ? Object(connecT).result : Object(connecT).error
             } catch (e) {
                 console.error("DB ERROR")
                 console.error(e)
