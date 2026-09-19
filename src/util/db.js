@@ -62,7 +62,7 @@ class Server8787DB {
             const isOk = demoConnecT.ok === true
             if (!isOk) console.error(`Error with getting data: ${connecT.error}`)
             return isOk ? connecT.result : connecT.error
-        } catch (e) {
+        } catch (err) {
             try {
                 const DB_SECRET = this.#DB_SECRET
                 const project = this.project
@@ -83,7 +83,7 @@ class Server8787DB {
                 const connecT = await demoConnecT.text()
                 console.log(connecT)
                 const isOk = demoConnecT.ok === true
-                if (!isOk) console.error(`Error with getting data: ${JSON,parse(connecT).error}`)
+                if (!isOk) console.error(`Error with getting data: ${JSON.parse(connecT).error}`)
                 return isOk ? connecT.result : connecT.error
             } catch (e) {
                 console.error("DB ERROR")
