@@ -64,7 +64,6 @@ class Server8787DB {
             return isOk ? connecT.result : connecT.error
         } catch (err) {
             try {
-                console.log(this.#DB_SECRET)
                 const DB_SECRET = this.#DB_SECRET
                 const project = this.project
                 const projectGroup = this.project
