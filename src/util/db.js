@@ -66,7 +66,7 @@ class Server8787DB {
             try {
                 const DB_SECRET = this.#DB_SECRET
                 const project = this.project
-                const projectGroup = this.project
+                const projectGroup = this.group
                 demoConnecT = await fetch(`https://${DB_URL}/files/read/`, {
                     method: "POST",
                     headers: {
