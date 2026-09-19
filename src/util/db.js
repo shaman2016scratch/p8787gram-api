@@ -27,7 +27,7 @@ class Server8787DB {
                     DB_SECRET,
                     projectGroup,
                     project,
-                    file,
+                    path: file,
                     newContent
                 })
             })).json()
@@ -55,7 +55,7 @@ class Server8787DB {
                     DB_SECRET,
                     projectGroup,
                     project,
-                    file
+                    path: file
                 })
             })
             const connecT = await demoConnecT.json()
